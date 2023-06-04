@@ -1,7 +1,9 @@
+import { Page } from './Page'
+
 export const CreateEditArticle = () => {
   return (
     <div class='editor-page'>
-      <div class='container page'>
+      <Page>
         <div class='row'>
           <div class='col-md-10 offset-md-1 col-xs-12'>
             <form>
@@ -45,7 +47,7 @@ export const CreateEditArticle = () => {
             </form>
           </div>
         </div>
-      </div>
+      </Page>
     </div>
   )
 }

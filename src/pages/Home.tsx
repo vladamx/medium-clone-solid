@@ -5,6 +5,7 @@ import { FeedToggle } from '../components/FeedToggle'
 import { Sidebar } from '../components/Sidebar'
 
 import { homeRouteData } from './Home.data'
+import { Page } from './Page'
 
 export const Home = () => {
   const feed = useRouteData<typeof homeRouteData>()
@@ -18,7 +19,7 @@ export const Home = () => {
       <pre>Error: {JSON.stringify(feed.error ?? 'No error', null, 2)}</pre>
       <pre>Data: {JSON.stringify(feed()?.articles[0], null, 2)}</pre>
 
-      <div class='container page'>
+      <Page>
         <div class='row'>
           <div class='col-md-9'>
             <FeedToggle />
@@ -29,7 +30,7 @@ export const Home = () => {
             <Sidebar />
           </div>
         </div>
-      </div>
+      </Page>
     </div>
   )
 }

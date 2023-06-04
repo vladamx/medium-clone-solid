@@ -1,3 +1,5 @@
+import { Page } from './Page'
+
 export const Article = () => {
   return (
     <div class='article-page'>
@@ -28,7 +30,7 @@ export const Article = () => {
         </div>
       </div>
 
-      <div class='container page'>
+      <Page>
         <div class='row article-content'>
           <div class='col-md-12'>
             <p>
@@ -133,7 +135,7 @@ export const Article = () => {
             </div>
           </div>
         </div>
-      </div>
+      </Page>
     </div>
   )
 }
