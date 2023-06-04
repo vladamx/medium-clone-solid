@@ -1,4 +1,4 @@
-export const Settings = () => {
+const Settings = () => {
   return (
     <div class='settings-page'>
       <div class='container page'>
@@ -58,3 +58,5 @@ export const Settings = () => {
     </div>
   )
 }
+
+export default Settings

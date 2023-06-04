@@ -1,13 +1,15 @@
-import type { Component } from 'solid-js'
+import { Component, lazy } from 'solid-js'
 import { Article } from './pages/Article'
 import { Route, Router, Routes } from '@solidjs/router'
 
-import { Profile } from './pages/Profile'
+import { PageLayout } from './components/PageLayout'
+
+const Profile = lazy(() => import('./pages/Profile'))
+const Settings = lazy(() => import('./pages/Settings'))
+
 import { Home } from './pages/Home'
 import { Login } from './pages/Login'
-import { Settings } from './pages/Settings'
 import { CreateEditArticle } from './pages/CreateEditArticle'
-import { PageLayout } from './components/PageLayout'
 
 const App: Component = () => {
   return (
@@ -23,6 +25,7 @@ const App: Component = () => {
           <Route path='/article/:slug' component={Article} />
           <Route path='/@:username' component={Profile} />
           <Route path='/@:username/favorites' component={Profile} />
+          <Route path='/profile' component={Profile} />
         </Route>
       </Routes>
     </Router>

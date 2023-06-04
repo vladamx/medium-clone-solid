@@ -1,4 +1,4 @@
-export const Profile = () => {
+const Profile = () => {
   return (
     <div class='profile-page'>
       <div class='user-info'>
@@ -94,3 +94,5 @@ export const Profile = () => {
     </div>
   )
 }
+
+export default Profile
