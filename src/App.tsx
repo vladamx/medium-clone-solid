@@ -10,6 +10,7 @@ const Settings = lazy(() => import('./pages/Settings'))
 import { Home } from './pages/Home'
 import { Login } from './pages/Login'
 import { CreateEditArticle } from './pages/CreateEditArticle'
+import { NotFound } from './pages/NotFound'
 
 const App: Component = () => {
   return (
@@ -23,10 +24,12 @@ const App: Component = () => {
           <Route path='/editor' component={CreateEditArticle} />
           <Route path='/editor/:slug' component={CreateEditArticle} />
           <Route path='/article/:slug' component={Article} />
-          <Route path='/@:username' component={Profile} />
-          <Route path='/@:username/favorites' component={Profile} />
-          <Route path='/profile' component={Profile} />
+          <Route path='/@/'>
+            <Route path='/:username' component={Profile} />
+            <Route path='/:username/favorites' component={Profile} />
+          </Route>
         </Route>
+        <Route path='*' component={NotFound} />
       </Routes>
     </Router>
   )
