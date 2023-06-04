@@ -1,4 +1,4 @@
-export const CreateArticle = () => {
+export const CreateEditArticle = () => {
   return (
     <div class='editor-page'>
       <div class='container page'>
