@@ -1,4 +1,4 @@
-import { Component, lazy } from 'solid-js'
+import { Component, createResource, lazy } from 'solid-js'
 import { Article } from './pages/Article'
 import { Route, Router, Routes } from '@solidjs/router'
 
@@ -11,13 +11,14 @@ import { Home } from './pages/Home'
 import { Login } from './pages/Login'
 import { CreateEditArticle } from './pages/CreateEditArticle'
 import { NotFound } from './pages/NotFound'
+import { homeRouteData } from './pages/Home.data'
 
 const App: Component = () => {
   return (
     <Router>
       <Routes>
         <Route path='/' component={PageLayout}>
-          <Route path='/' component={Home} />
+          <Route path='/' component={Home} data={homeRouteData} />
           <Route path='/login' component={Login} />
           <Route path='/register' component={Login} />
           <Route path='/settings' component={Settings} />

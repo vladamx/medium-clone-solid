@@ -1,4 +1,10 @@
+import { useRouteData } from '@solidjs/router'
+
+import { homeRouteData } from './Home.data'
+
 export const Home = () => {
+  const feed = useRouteData<typeof homeRouteData>()
+
   return (
     <div class='home-page'>
       <div class='banner'>
@@ -7,6 +13,7 @@ export const Home = () => {
           <p>A place to share your knowledge.</p>
         </div>
       </div>
+      <pre>{JSON.stringify(feed()?.articles[0], null, 2)}</pre>
 
       <div class='container page'>
         <div class='row'>
