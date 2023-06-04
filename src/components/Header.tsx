@@ -9,7 +9,7 @@ export const Header = () => {
         </A>
         <ul class='nav navbar-nav pull-xs-right'>
           <li class='nav-item'>
-            <A class='nav-link' href='/'>
+            <A class='nav-link' end={true} href='/'>
               Home
             </A>
           </li>
