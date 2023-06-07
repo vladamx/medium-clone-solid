@@ -1,33 +1,37 @@
+import { A, useSearchParams } from '@solidjs/router'
+import { For } from 'solid-js'
+
 export const Sidebar = () => {
+  const [, setSearchParams] = useSearchParams<{ tag?: string; feed?: string }>()
+
+  const tags = () => [
+    'programming',
+    'javascript',
+    'emberjs',
+    'angularjs',
+    'react',
+    'mean',
+    'node',
+    'rails',
+  ]
+
   return (
     <div class='sidebar'>
       <p>Popular Tags</p>
 
       <div class='tag-list'>
-        <a href='' class='tag-pill tag-default'>
-          programming
-        </a>
-        <a href='' class='tag-pill tag-default'>
-          javascript
-        </a>
-        <a href='' class='tag-pill tag-default'>
-          emberjs
-        </a>
-        <a href='' class='tag-pill tag-default'>
-          angularjs
-        </a>
-        <a href='' class='tag-pill tag-default'>
-          react
-        </a>
-        <a href='' class='tag-pill tag-default'>
-          mean
-        </a>
-        <a href='' class='tag-pill tag-default'>
-          node
-        </a>
-        <a href='' class='tag-pill tag-default'>
-          rails
-        </a>
+        <For each={tags()}>
+          {tag => (
+            <a
+              onClick={() => {
+                setSearchParams({ tag, feed: '' })
+              }}
+              class='tag-pill tag-default'
+            >
+              {tag}
+            </a>
+          )}
+        </For>
       </div>
     </div>
   )

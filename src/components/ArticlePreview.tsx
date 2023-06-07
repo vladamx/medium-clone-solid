@@ -1,25 +1,46 @@
-export const ArticlePreview = () => {
+import { A } from '@solidjs/router'
+
+type ArticlePreviewProps = {
+  author: {
+    username: string
+    image: string
+    following: boolean
+    name: string
+  }
+  date: string
+  title: string
+  slug: string
+  description: string
+  favoritesCount: number
+}
+
+// props access is deferred up to the last moment and bound on dom elements
+// default props are supported with mergeProps which returns a signal
+// split props are supported with splitProps which returns a signal
+// JSX return real dom nodes rather than a virtual dom
+// so you can directly add classes to children for example
+export const ArticlePreview = (props: ArticlePreviewProps) => {
   return (
     <div class='article-preview'>
       <div class='article-meta'>
-        <a href='profile.html'>
-          <img src='http://i.imgur.com/Qr71crq.jpg' />
-        </a>
+        <A href={`/@/${props.author.username}`}>
+          <img src={props.author.image} />
+        </A>
         <div class='info'>
           <a href='' class='author'>
-            Eric Simons
+            {props.author.name}
           </a>
-          <span class='date'>January 20th</span>
+          <span class='date'>{props.date}</span>
         </div>
         <button class='btn btn-outline-primary btn-sm pull-xs-right'>
-          <i class='ion-heart'></i> 29
+          <i class='ion-heart'></i> {props.favoritesCount}
         </button>
       </div>
-      <a href='' class='preview-link'>
-        <h1>How to build webapps that scale</h1>
-        <p>This is the description for the post.</p>
+      <A href={`/article/${props.slug}`} class='preview-link'>
+        <h1>{props.title}</h1>
+        <p>{props.description}</p>
         <span>Read more...</span>
-      </a>
+      </A>
     </div>
   )
 }

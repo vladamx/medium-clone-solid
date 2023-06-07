@@ -22,9 +22,38 @@ export const Home = () => {
       <Page>
         <div class='row'>
           <div class='col-md-9'>
-            <FeedToggle />
-            <ArticlePreview />
-            <ArticlePreview />
+            <FeedToggle
+              feeds={[{ id: 'global', title: 'Global Feed' }]}
+              defaultFeed='global'
+            />
+            <ArticlePreview
+              author={{
+                username: 'jake',
+                image:
+                  'https://static.productionready.io/images/smiley-cyrus.jpg',
+                following: false,
+                name: 'Jacob',
+              }}
+              date='January 20th'
+              title='How to build webapps that scale'
+              slug='how-to-build-webapps-that-scale'
+              description='This is the description for the post.'
+              favoritesCount={0}
+            />
+            <ArticlePreview
+              author={{
+                username: 'jake',
+                image:
+                  'https://static.productionready.io/images/smiley-cyrus.jpg',
+                following: false,
+                name: 'Jacob',
+              }}
+              date='January 20th'
+              title='How to build webapps that scale'
+              slug='how-to-build-webapps-that-scale'
+              description='This is the description for the post.'
+              favoritesCount={0}
+            />
           </div>
           <div class='col-md-3'>
             <Sidebar />
