@@ -4,8 +4,11 @@ import { Route, Router, Routes } from '@solidjs/router'
 
 import { PageLayout } from './components/PageLayout'
 
-const Profile = lazy(() => import('./pages/Profile'))
-const Settings = lazy(() => import('./pages/Settings'))
+const Profile = lazy(() => import('./pages/lazy/Profile'))
+const Settings = lazy(async () => {
+  await new Promise(resolve => setTimeout(resolve, 4000))
+  return import('./pages/lazy/Settings')
+})
 
 import { Home } from './pages/Home'
 import { Login } from './pages/Login'
