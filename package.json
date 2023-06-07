@@ -17,8 +17,9 @@
   },
   "dependencies": {
     "@solidjs/router": "^0.8.2",
+    "date-fns": "^2.30.0",
     "lodash-es": "^4.17.21",
-    "solid-js": "^1.6.10",
+    "solid-js": "^1.6.12",
     "solid-transition-group": "^0.2.2"
   }
 }
