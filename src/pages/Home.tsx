@@ -12,7 +12,7 @@ export const Home = () => {
 
   return (
     <div class='home-page'>
-      <Banner />
+      <Banner title='conduit' description='A place to share your knowledge.' />
 
       <pre>State: {JSON.stringify(feed.state, null, 2)}</pre>
       <pre>Loading: {JSON.stringify(feed.loading, null, 2)}</pre>
