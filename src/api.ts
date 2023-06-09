@@ -1,8 +1,12 @@
 export const fetchUser = async (id: string) => {
-  const res = await fetch(
-    `https://conduit.productionready.io/api/profiles/${id}`,
-  )
-  return res.json()
+  try {
+    const res = await fetch(
+      `https://conduit.productionready.io/api/profiles/${id}`,
+    )
+    return res.json()
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 
 export const fetchTags = async () => {
@@ -50,13 +54,12 @@ export type Author = {
 }
 
 export const fetchFeed = async () => {
-  const res = await fetch(
-    `https://conduit.productionready.io/api/articles`,
-  ).catch(err => {
-    console.log(err)
-    return err
-  })
-  return res.json() as Promise<Feed>
+  try {
+    const res = await fetch(`https://conduit.productionready.io/api/articles`)
+    return res.json() as Promise<Feed>
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 
 export const fetchArticlesForTag = async (tag: string) => {
