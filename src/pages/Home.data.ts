@@ -1,13 +1,22 @@
 import { useSearchParams } from '@solidjs/router'
 import { toNumber } from 'lodash-es'
-import { createResource, createSignal } from 'solid-js'
+import { createResource } from 'solid-js'
 import { fetchFeed } from '../api'
 
 export const homeRouteData = () => {
-  const [searchParams] = useSearchParams<{ page?: string }>()
-  const [currentPage, setCurrentPage] = createSignal(
-    toNumber(searchParams.page) || 1,
+  const [searchParams, setSearchParams] = useSearchParams<{
+    tag?: string
+    page?: string
+  }>()
+  const [feed, { refetch }] = createResource(
+    () => ({ page: toNumber(searchParams.page) || 1, tag: searchParams.tag }),
+    fetchFeed,
   )
-  const [feed, { refetch }] = createResource(currentPage, fetchFeed)
-  return { feed, refetch, currentPage, setCurrentPage }
+
+  return {
+    feed,
+    refetch,
+    currentPage: () => toNumber(searchParams.page) || 1,
+    setCurrentPage: (page: number) => setSearchParams({ page }),
+  }
 }

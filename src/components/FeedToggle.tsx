@@ -1,5 +1,5 @@
 import { useSearchParams } from '@solidjs/router'
-import { createEffect, For, Show } from 'solid-js'
+import { createEffect, For, Show, Suspense } from 'solid-js'
 import { isNil } from 'lodash-es'
 import { FadeTransition } from './FadeTransition'
 
@@ -12,15 +12,16 @@ export const FeedToggle = (props: FeedToggleProps) => {
   const [searchParams, setSearchParams] = useSearchParams<{
     feed?: string
     tag?: string
+    page?: string
   }>()
 
   const isActiveFeed = (feed: string) => searchParams.feed === feed
 
   createEffect(() => {
     if (!searchParams.feed && !searchParams.tag) {
-      setSearchParams({ feed: props.defaultFeed, tag: '' })
+      setSearchParams({ feed: props.defaultFeed, tag: '', page: 1 })
     } else if (searchParams.feed && searchParams.tag) {
-      setSearchParams({ feed: '', tag: searchParams.tag })
+      setSearchParams({ feed: '', tag: searchParams.tag, page: 1 })
     }
   })
 
@@ -40,7 +41,7 @@ export const FeedToggle = (props: FeedToggleProps) => {
                   if (feed.id === searchParams.feed || feed.disabled) {
                     return
                   }
-                  setSearchParams({ feed: feed.id, tag: '' })
+                  setSearchParams({ feed: feed.id, tag: '', page: 1 })
                 }}
               >
                 {feed.title}
@@ -48,19 +49,21 @@ export const FeedToggle = (props: FeedToggleProps) => {
             </li>
           )}
         </For>
-        <FadeTransition duration={300}>
-          <Show when={searchParams.tag}>
-            <li class='nav-item'>
-              <a
-                class='nav-link'
-                classList={{
-                  active: true,
-                }}
-              >
-                #{searchParams.tag}
-              </a>
-            </li>
-          </Show>
+        <FadeTransition mode='inout' duration={1200}>
+          <Suspense>
+            <Show when={searchParams.tag}>
+              <li class='nav-item'>
+                <a
+                  class='nav-link'
+                  classList={{
+                    active: true,
+                  }}
+                >
+                  #{searchParams.tag}
+                </a>
+              </li>
+            </Show>
+          </Suspense>
         </FadeTransition>
       </ul>
     </div>

@@ -24,7 +24,7 @@ export const Sidebar = () => {
           {tag => (
             <a
               onClick={() => {
-                setSearchParams({ tag, feed: '' })
+                setSearchParams({ tag, feed: '', page: 1 })
               }}
               class='tag-pill tag-default'
             >

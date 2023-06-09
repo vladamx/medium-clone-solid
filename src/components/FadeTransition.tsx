@@ -4,15 +4,18 @@ import { Transition } from 'solid-transition-group'
 type FadeTransition = {
   children: JSX.Element
   duration?: number
+  mode?: 'inout' | 'outin'
 }
 
 export const FadeTransition = (props: FadeTransition) => {
-  const mergedProps = mergeProps({ duration: 150 }, props)
+  const mergedProps = mergeProps({ duration: 150, mode: 'outin' }, props)
   return (
     <Transition
-      mode='outin'
+      mode={mergedProps.mode as 'inout' | 'outin'}
       onBeforeEnter={el => {
-        if (el instanceof HTMLElement) el.style.opacity = '0'
+        if (el.parentNode) {
+          if (el instanceof HTMLElement) el.style.opacity = '0'
+        }
       }}
       onEnter={(el, done) => {
         el.animate([{ opacity: 0 }, { opacity: 1 }], {

@@ -6,7 +6,6 @@ import { PageLayout } from './components/PageLayout'
 
 const Profile = lazy(() => import('./pages/lazy/Profile'))
 const Settings = lazy(async () => {
-  await new Promise(resolve => setTimeout(resolve, 4000))
   return import('./pages/lazy/Settings')
 })
 
