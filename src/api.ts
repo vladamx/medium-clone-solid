@@ -53,9 +53,14 @@ export type Author = {
   following: boolean
 }
 
-export const fetchFeed = async () => {
+export const fetchFeed = async (page: number) => {
+  console.log(page)
   try {
-    const res = await fetch(`https://conduit.productionready.io/api/articles`)
+    const res = await fetch(
+      `https://conduit.productionready.io/api/articles?limit=10&offset=${
+        (page - 1) * 10
+      }`,
+    )
     return res.json() as Promise<Feed>
   } catch (error) {
     return Promise.reject(error)

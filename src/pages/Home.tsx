@@ -1,9 +1,10 @@
 import { useRouteData } from '@solidjs/router'
 import { parseISO } from 'date-fns'
-import { ErrorBoundary, For, Suspense } from 'solid-js'
+import { ErrorBoundary, For, Suspense, useTransition } from 'solid-js'
 import { ArticlePreview } from '../components/ArticlePreview'
 import { Banner } from '../components/Banner'
 import { FeedToggle } from '../components/FeedToggle'
+import { Pagination } from '../components/Pagination'
 import { Sidebar } from '../components/Sidebar'
 import { errorBoundaryFallbackWithRefetch } from './errorBoundaryFallback'
 
@@ -11,7 +12,12 @@ import { homeRouteData } from './Home.data'
 import { Page } from './Page'
 
 export const Home = () => {
-  const { feed, refetch } = useRouteData<typeof homeRouteData>()
+  const { feed, refetch, currentPage, setCurrentPage } =
+    useRouteData<typeof homeRouteData>()
+
+  // We use suspend for initial loading and transitions for update!
+  const [pending, start] = useTransition()
+  const updatePage = (page: number) => start(() => setCurrentPage(page))
 
   return (
     <div class='home-page'>
@@ -24,7 +30,7 @@ export const Home = () => {
               defaultFeed='global'
             />
             {/* Bootstrap layout issue */}
-            <p></p>
+            {feed.loading && <p></p>}
             {/* Because of the mechanics of how createResource signals work be sure to always nest data access after error check otherwise data access signal will throw. Thats why ErrorBoundary works.
             ErrorBoundary API is a little bit cumbersome because of manual reset needed after mutation but powerful in a way since you can pull it up in the hierarchy and still catch errors just like Suspense. ErrorBoundaries will be reset automatically on page change*/}
             <ErrorBoundary fallback={errorBoundaryFallbackWithRefetch(refetch)}>
@@ -50,6 +56,13 @@ export const Home = () => {
                 </For>
               </Suspense>
             </ErrorBoundary>
+            {pending() && <p>Loading articles..</p>}
+            {feed() && (
+              <Pagination
+                currentPage={currentPage()}
+                onPageChange={updatePage}
+              />
+            )}
           </div>
           <div class='col-md-3'>
             <Sidebar />
