@@ -5,6 +5,7 @@ import { ArticlePreview } from '../components/ArticlePreview'
 import { Banner } from '../components/Banner'
 import { FeedToggle } from '../components/FeedToggle'
 import { Sidebar } from '../components/Sidebar'
+import { errorBoundaryFallbackWithRefetch } from './errorBoundaryFallback'
 
 import { homeRouteData } from './Home.data'
 import { Page } from './Page'
@@ -24,25 +25,9 @@ export const Home = () => {
             />
             {/* Bootstrap layout issue */}
             <p></p>
-            {/* Because of the mechanics of how createResourse signals work be sure to always nest data access after error check otherwise data access signal will throw. Thats why ErrorBoundary works.
+            {/* Because of the mechanics of how createResource signals work be sure to always nest data access after error check otherwise data access signal will throw. Thats why ErrorBoundary works.
             ErrorBoundary API is a little bit cumbersome because of manual reset needed after mutation but powerful in a way since you can pull it up in the hierarchy and still catch errors just like Suspense. ErrorBoundaries will be reset automatically on page change*/}
-            <ErrorBoundary
-              fallback={(err, reset) => (
-                <div>
-                  <p>Failed to load articles!</p>
-                  <p>Reason: {err.message}</p>
-                  <button
-                    class='btn btn-outline-success'
-                    onClick={() => {
-                      refetch()
-                      reset()
-                    }}
-                  >
-                    Try again
-                  </button>
-                </div>
-              )}
-            >
+            <ErrorBoundary fallback={errorBoundaryFallbackWithRefetch(refetch)}>
               <Suspense fallback={<p>Loading articles..</p>}>
                 <For each={feed()?.articles}>
                   {article => (
