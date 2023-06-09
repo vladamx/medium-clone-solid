@@ -25,7 +25,7 @@ export const Home = () => {
             {/* Bootstrap layout issue */}
             <p></p>
             {/* Because of the mechanics of how createResourse signals work be sure to always nest data access after error check otherwise data access signal will throw. Thats why ErrorBoundary works.
-            ErrorBoundary API is a little bit cumbersome because of manual reset needed after mutation but powerful in a way since you can pull it up in the hierarchy and still catch errors just like Suspense*/}
+            ErrorBoundary API is a little bit cumbersome because of manual reset needed after mutation but powerful in a way since you can pull it up in the hierarchy and still catch errors just like Suspense. ErrorBoundaries will be reset automatically on page change*/}
             <ErrorBoundary
               fallback={(err, reset) => (
                 <div>
