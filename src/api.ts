@@ -1,8 +1,26 @@
 export const fetchUser = async (id: string) => {
   try {
-    const res = await fetch(
-      `https://conduit.productionready.io/api/profiles/${id}`,
-    )
+    const res = await fetch(`https://api.realworld.io/api/profiles/${id}`)
+    return res.json()
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+export const createUser = async (user: {
+  username: string
+  password: string
+  email: string
+}) => {
+  try {
+    const res = await fetch(`https://api.realworld.io/api/users`, {
+      body: JSON.stringify({ user }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        accept: 'application/json',
+      },
+    })
     return res.json()
   } catch (error) {
     return Promise.reject(error)
@@ -10,20 +28,18 @@ export const fetchUser = async (id: string) => {
 }
 
 export const fetchTags = async () => {
-  const res = await fetch(`https://conduit.productionready.io/api/tags`)
+  const res = await fetch(`https://api.realworld.io/api/tags`)
   return res.json()
 }
 
 export const fetchArticle = async (slug: string) => {
-  const res = await fetch(
-    `https://conduit.productionready.io/api/articles/${slug}`,
-  )
+  const res = await fetch(`https://api.realworld.io/api/articles/${slug}`)
   return res.json()
 }
 
 export const fetchCommentsForArticle = async (slug: string) => {
   const res = await fetch(
-    `https://conduit.productionready.io/api/articles/${slug}/comments`,
+    `https://api.realworld.io/api/articles/${slug}/comments`,
   )
   return res.json()
 }
@@ -62,7 +78,7 @@ export const fetchFeed = async ({
 }) => {
   try {
     const res = await fetch(
-      `https://conduit.productionready.io/api/articles?limit=10&offset=${
+      `https://api.realworld.io/api/articles?limit=10&offset=${
         (page - 1) * 10
       }${tag ? `&tag=${tag}` : ''}`,
     )
@@ -73,22 +89,20 @@ export const fetchFeed = async ({
 }
 
 export const fetchArticlesForTag = async (tag: string) => {
-  const res = await fetch(
-    `https://conduit.productionready.io/api/articles?tag=${tag}`,
-  )
+  const res = await fetch(`https://api.realworld.io/api/articles?tag=${tag}`)
   return res.json()
 }
 
 export const fetchArticlesByAuthor = async (author: string) => {
   const res = await fetch(
-    `https://conduit.productionready.io/api/articles?author=${author}`,
+    `https://api.realworld.io/api/articles?author=${author}`,
   )
   return res.json()
 }
 
 export const fetchArticlesForFavorited = async (favorited: string) => {
   const res = await fetch(
-    `https://conduit.productionready.io/api/articles?favorited=${favorited}`,
+    `https://api.realworld.io/api/articles?favorited=${favorited}`,
   )
   return res.json()
 }

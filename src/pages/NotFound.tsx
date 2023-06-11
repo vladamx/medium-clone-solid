@@ -4,8 +4,8 @@ import { Page } from './Page'
 export const NotFound = () => {
   return (
     <Page>
-      <div class='row'>
-        <div class='col-md-6 offset-md-3 col-xs-12'>
+      <div class='row flex-items-md-center'>
+        <div class='col'>
           <h1 class='text-xs-center'>Not Found</h1>
           <hr />
           <div class='row flex-items-md-center'>
