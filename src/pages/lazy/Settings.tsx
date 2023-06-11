@@ -1,6 +1,10 @@
+import { createLocalStorage } from '@solid-primitives/storage'
 import { Page } from '../Page'
 
 const Settings = () => {
+  const [, , { toJSON }] = createLocalStorage({
+    prefix: 'solid-realworld',
+  })
   return (
     <div class='settings-page'>
       <Page>
@@ -13,6 +17,7 @@ const Settings = () => {
                 <fieldset class='form-group'>
                   <input
                     class='form-control'
+                    value={JSON.parse(toJSON()['solid-realworld.user']).image}
                     type='text'
                     placeholder='URL of profile picture'
                   />
@@ -21,6 +26,9 @@ const Settings = () => {
                   <input
                     class='form-control form-control-lg'
                     type='text'
+                    value={
+                      JSON.parse(toJSON()['solid-realworld.user']).username
+                    }
                     placeholder='Your Name'
                   />
                 </fieldset>
@@ -28,6 +36,7 @@ const Settings = () => {
                   <textarea
                     class='form-control form-control-lg'
                     rows='8'
+                    value={JSON.parse(toJSON()['solid-realworld.user']).bio}
                     placeholder='Short bio about you'
                   ></textarea>
                 </fieldset>
@@ -35,6 +44,7 @@ const Settings = () => {
                   <input
                     class='form-control form-control-lg'
                     type='text'
+                    value={JSON.parse(toJSON()['solid-realworld.user']).email}
                     placeholder='Email'
                   />
                 </fieldset>
@@ -42,6 +52,9 @@ const Settings = () => {
                   <input
                     class='form-control form-control-lg'
                     type='password'
+                    value={
+                      JSON.parse(toJSON()['solid-realworld.user']).password
+                    }
                     placeholder='Password'
                   />
                 </fieldset>
