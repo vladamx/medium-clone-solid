@@ -15,12 +15,17 @@ export const FeedToggle = (props: FeedToggleProps) => {
     page?: string
   }>()
 
-  const isActiveFeed = (feed: string) => searchParams.feed === feed
+  const isActiveFeed = (feed: string) => {
+    if (searchParams.tag) {
+      return false
+    }
+    return searchParams.feed
+      ? searchParams.feed === feed
+      : feed === props.defaultFeed
+  }
 
   createEffect(() => {
-    if (!searchParams.feed && !searchParams.tag) {
-      setSearchParams({ feed: props.defaultFeed, tag: '', page: 1 })
-    } else if (searchParams.feed && searchParams.tag) {
+    if (searchParams.feed && searchParams.tag) {
       setSearchParams({ feed: '', tag: searchParams.tag, page: 1 })
     }
   })

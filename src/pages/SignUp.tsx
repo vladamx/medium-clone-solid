@@ -1,20 +1,18 @@
-import { createLocalStorage } from '@solid-primitives/storage'
 import { A } from '@solidjs/router'
 import { Show } from 'solid-js'
 import { createStore } from 'solid-js/store'
 import { createUser } from '../api'
+import { useUser } from '../UserProvider'
 import { Page } from './Page'
 
 export const SignUp = () => {
-  const [user, setUser] = createStore({
+  const [userForm, setUserForm] = createStore({
     email: { value: '', error: '' },
     password: { value: '', error: '' },
     username: { value: '', error: '' },
     error: '',
   })
-  const [, setStore] = createLocalStorage({
-    prefix: 'solid-realworld',
-  })
+  const { user, login } = useUser()
   return (
     <div class='auth-page'>
       <Page>
@@ -24,22 +22,19 @@ export const SignUp = () => {
             <p class='text-xs-center'>
               <A href='/login'>Have an account?</A>
             </p>
-            <pre>
-              <code>{JSON.stringify(user, null, 2)}</code>
-            </pre>
             <form
               onSubmit={async e => {
                 try {
                   e.preventDefault()
-                  setStore('error', '')
+                  setUserForm('error', '')
                   const response = await createUser({
-                    username: user.username.value,
-                    email: user.email.value,
-                    password: user.password.value,
+                    username: userForm.username.value,
+                    email: userForm.email.value,
+                    password: userForm.password.value,
                   })
                   if (response.errors) {
                     Object.entries(response.errors).forEach(([key, value]) => {
-                      setUser(
+                      setUserForm(
                         key as 'username' | 'email' | 'password',
                         'error',
                         value as string[][0],
@@ -49,11 +44,11 @@ export const SignUp = () => {
                   if (response.user) {
                     console.info('Successfully created user')
                     console.info('Saving user to session...')
-                    setStore('user', JSON.stringify(response.user))
+                    login(response.user)
                   }
                 } catch (error) {
                   if (error instanceof Error) {
-                    setUser('error', error.message)
+                    setUserForm('error', error.message)
                   }
                 }
               }}
@@ -62,66 +57,66 @@ export const SignUp = () => {
                 <input
                   class='form-control form-control-lg'
                   type='text'
-                  value={user.username.value}
+                  value={userForm.username.value}
                   onKeyUp={e =>
-                    setUser('username', 'value', e.currentTarget.value)
+                    setUserForm('username', 'value', e.currentTarget.value)
                   }
                   onBlur={e => {
                     if (!e.currentTarget.value) {
-                      setUser('username', 'error', 'is required')
+                      setUserForm('username', 'error', 'is required')
                     } else {
-                      setUser('username', 'error', '')
+                      setUserForm('username', 'error', '')
                     }
                   }}
                   placeholder='Your Name'
                 />
               </fieldset>
-              <Show when={user.username.error} keyed>
+              <Show when={userForm.username.error} keyed>
                 {error => <p class='error-messages'> Name {error}</p>}
               </Show>
               <fieldset class='form-group'>
                 <input
                   class='form-control form-control-lg'
                   type='text'
-                  value={user.email.value}
+                  value={userForm.email.value}
                   onKeyUp={e =>
-                    setUser('email', 'value', e.currentTarget.value)
+                    setUserForm('email', 'value', e.currentTarget.value)
                   }
                   onBlur={e => {
                     if (!e.currentTarget.value) {
-                      setUser('email', 'error', 'is required')
+                      setUserForm('email', 'error', 'is required')
                     } else {
-                      setUser('email', 'error', '')
+                      setUserForm('email', 'error', '')
                     }
                   }}
                   placeholder='Email'
                 />
               </fieldset>
-              <Show when={user.email.error} keyed>
+              <Show when={userForm.email.error} keyed>
                 {error => <p class='error-messages'>Email {error}</p>}
               </Show>
               <fieldset class='form-group'>
                 <input
                   class='form-control form-control-lg'
                   type='password'
-                  value={user.password.value}
+                  value={userForm.password.value}
                   onKeyUp={e =>
-                    setUser('password', 'value', e.currentTarget.value)
+                    setUserForm('password', 'value', e.currentTarget.value)
                   }
                   onBlur={e => {
                     if (!e.currentTarget.value) {
-                      setUser('password', 'error', ' is required')
+                      setUserForm('password', 'error', ' is required')
                     } else {
-                      setUser('email', 'error', '')
+                      setUserForm('email', 'error', '')
                     }
                   }}
                   placeholder='Password'
                 />
               </fieldset>
-              <Show when={user.password.error} keyed>
+              <Show when={userForm.password.error} keyed>
                 {error => <p class='error-messages'>Password {error}</p>}
               </Show>
-              <Show when={user.error} keyed>
+              <Show when={userForm.error} keyed>
                 {error => <p class='error-messages'>{error}</p>}
               </Show>
               <button

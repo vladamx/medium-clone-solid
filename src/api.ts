@@ -27,6 +27,48 @@ export const createUser = async (user: {
   }
 }
 
+export const login = async (user: { email: string; password: string }) => {
+  try {
+    const res = await fetch(`https://api.realworld.io/api/users/login`, {
+      body: JSON.stringify({ user }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        accept: 'application/json',
+      },
+    })
+    return res.json()
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+export const updateUser = async (
+  token: string,
+  user: {
+    username: string
+    password?: string
+    email: string
+    bio: string
+    image: string
+  },
+) => {
+  try {
+    const res = await fetch(`https://api.realworld.io/api/user`, {
+      body: JSON.stringify({ user }),
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return res.json()
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
 export const fetchTags = async () => {
   const res = await fetch(`https://api.realworld.io/api/tags`)
   return res.json()

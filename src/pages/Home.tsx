@@ -58,9 +58,9 @@ export const Home = () => {
                     />
                   )}
                 </For>
+                {pending() && <p>Loading articles..</p>}
               </Suspense>
             </ErrorBoundary>
-            {pending() && <p>Loading articles..</p>}
             {feed() && (
               <Pagination
                 currentPage={currentPage()}
