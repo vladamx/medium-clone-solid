@@ -19,7 +19,6 @@ const [UserProvider, useUser] = createContextProvider(
         setUserSignal(user)
       },
       logout: () => {
-        console.log('logout')
         setUserSignal(null)
       },
     }
