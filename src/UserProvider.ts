@@ -1,24 +1,43 @@
 import { createContextProvider } from '@solid-primitives/context'
+import { createStorage } from '@solid-primitives/storage'
 import { isNil } from 'lodash-es'
-import { createSignal } from 'solid-js'
+import { createEffect, createRoot, createSignal } from 'solid-js'
+
+type User = {
+  email: string
+  username: string
+  token: string
+  bio?: string
+  image: string
+}
 
 const [UserProvider, useUser] = createContextProvider(
   () => {
-    const [user, setUserSignal] = createSignal<{
-      username: string
-      email: string
-      image?: string
-      bio?: string
-      token: string
-    } | null>({ username: 'user1', email: 'user1@gmail.com', token: 'token' })
+    const [user, setUserSignal] = createSignal<User | null>(null)
+
+    // Not reactive. Needs to be synchronized to signal.
+    const [store, setUserStore, { remove }] = createStorage({
+      prefix: 'solid-realworld',
+    })
+
+    createRoot(() => {
+      createEffect(() => {
+        const user = store['user']
+        if (user) {
+          setUserSignal(JSON.parse(user))
+        }
+      })
+    })
 
     return {
       user,
       loggedIn: () => !isNil(user()),
-      login: (user: { email: string; username: string; token: string }) => {
+      login: (user: User) => {
+        setUserStore('user', JSON.stringify(user))
         setUserSignal(user)
       },
       logout: () => {
+        remove('user')
         setUserSignal(null)
       },
     }
@@ -26,7 +45,7 @@ const [UserProvider, useUser] = createContextProvider(
   {
     user: () => null,
     loggedIn: () => false,
-    login: (user: { email: string; username: string }) => {},
+    login: (user: User) => {},
     logout: () => {},
   },
 )
